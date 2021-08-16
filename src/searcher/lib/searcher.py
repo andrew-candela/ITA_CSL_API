@@ -1,5 +1,6 @@
 import requests
-from typing import Dict, Any
+from typing import Dict, Any, Iterable
+from searcher.lib.format_record import format_result
 import os
 
 CSL_ENDPOINT = "https://api.trade.gov/gateway/v1/consolidated_screening_list/search"
@@ -10,8 +11,8 @@ headers = {
 }
 
 
-def fuzzy_name_search(name: str) -> Dict[str, Any]:
-    params = {"fuzzy_name": name}
+def fuzzy_name_search(name: str) -> Iterable[Dict[str, Any]]:
+    params = {"fuzzy_name": True, "name": name}
     resp = requests.get(CSL_ENDPOINT, headers=headers, params=params)
     resp.raise_for_status()
-    return resp.json()
+    yield from format_result(name, resp.json())

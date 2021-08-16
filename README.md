@@ -1,6 +1,8 @@
 
 # Search the CSL from trade.gov
 
+
+
 Use an API like a civilized person.
 
 You need to do the following to get a valid API token:
@@ -27,19 +29,17 @@ Now you can do the normal python dance:
 This package can be invoked as follows:
 
 ```shell
-python src/searcher/get_data.py names.txt output_file_name.jsonl
+python src/searcher/get_data.py names.txt output_file_name.csv
 ```
 
 This will read in the names you want to search for in `names.txt`
-and write the API results into `output_file_name.jsonl`.
+and write the API results into `output_file_name.csv`.
 
-The API results are [jsonlines](https://jsonlines.org/).
-Each line of the file is a valid JSON wad, and each one can be parsed independantly.
-If you're on a unix system, you can inspect the n'th line of files like this with
+The API results are flattened into a format suitable for CSV ingestion.
+There are a few fields that I've merely printed as formatted JSON in order to
+fit them into a single record in a spreadsheet.
 
-```shell
-the_line_number_you_want=1
-head -n $the_line_number_you_want | jq .
-```
+## Output
 
-using the great [jq](https://stedolan.github.io/jq/) package.
+The output will be a CSV file with columns equal to the rows displayed in
+[the application web UI](https://www.trade.gov/data-visualization/csl-search#/csl-search).
